@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import WhatsAppButton from "./components/utils/Whatsapp";
 
@@ -12,6 +12,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata = {
   title: "Amiventia - Wholesome Instant Foods for a Healthier You",
   description: "Discover nutritious, delicious instant food products crafted with traditional grains and natural ingredients. 100% healthy and natural.",
@@ -21,10 +27,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
         {children}
-        <WhatsAppButton/>
+        <WhatsAppButton />
       </body>
     </html>
   );

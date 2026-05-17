@@ -19,6 +19,27 @@ body {
   color: var(--text-dark);
 }
 
+.heading-60 {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: clamp(42px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.subheading-20 {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.para-14 {
+  font-family: var(--font-poppins), var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
 .glass-card {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(20px);

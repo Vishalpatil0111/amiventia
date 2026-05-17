@@ -1,27 +1,22 @@
-import Footer from "./components/Footer";
 import Navbar from "./components/navbar/NavbarClient";
-import Contact from "./components/sections/Contact";
 import Hero from "./components/sections/Hero";
+import ProductCard from "./components/sections/ProductCard";
 import Product from "./components/sections/Product";
-import Story from "./components/sections/Story";
-import Testimonials from "./components/sections/Testimonials";
-import Benefits from "./components/sections/Benefits";
-import HowItWorks from "./components/sections/HowItWorks";
+import Contact from "./components/sections/Contact";
+import Footer from "./components/sections/Footer";
+import { CartProvider } from "./components/utils/CartContext";
 
 export default function Home() {
   return (
-    <div>
-      <Navbar/>
-      <main>
-       <Hero/>
-       <Story/>
-       <Benefits/>
-       <Product/>
-       <HowItWorks/>
-       <Testimonials/>
-       <Contact/>
+    <CartProvider>
+      <main className="min-h-screen relative">
+        <Navbar />
+        <Hero />
+        <ProductCard />
+        <Product />
+        <Contact />
+        <Footer />
       </main>
-      <Footer/>
-    </div>
+    </CartProvider>
   );
 }

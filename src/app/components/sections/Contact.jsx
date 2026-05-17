@@ -1,164 +1,139 @@
 "use client";
 
+import { Mail, MapPin, PackageCheck, Phone } from "lucide-react";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import emailjs from "emailjs-com";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+
+const contactItems = [
+  {
+    icon: PackageCheck,
+    label: "Bulk Orders",
+    value: "Custom quantities for stores, cafes, and wellness teams.",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "orders@amiventia.com",
+  },
+  {
+    icon: Phone,
+    label: "Phone",
+    value: "+91 98765 43210",
+  },
+  {
+    icon: MapPin,
+    label: "Location",
+    value: "Made in India, delivered fresh.",
+  },
+];
 
 export default function Contact() {
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    message: "",
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
 
-    try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        e.target,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
-
-      alert("Message sent successfully!");
-      e.target.reset();
-    } catch (error) {
-      alert("Failed to send message. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const submitInquiry = (event) => {
+    event.preventDefault();
+    setForm({ name: "", email: "", company: "", message: "" });
   };
 
   return (
-    <section id="contact" className="w-full py-24 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FFF8F0] via-white to-[#FFF8F0]" />
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="uppercase tracking-widest text-sm text-[#FF6B35] font-semibold mb-4">
-            Get in Touch
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-[#fff8eb] px-5 py-20 text-[#5b301c]"
+    >
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#d8b98b] to-transparent" />
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div>
+          <p className="para-14 font-bold uppercase tracking-[0.22em] text-[#b87336]">
+            Contact Us
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-            We&apos;d Love to{" "}
-            <span className="bg-gradient-to-r from-[#FF6B35] to-[#F7931E] bg-clip-text text-transparent">Hear from You</span>
+          <h2 className="heading-60 mt-3 max-w-xl font-black text-[#4a2415]">
+            Get your discounts. Interested in Bulk Orders?
           </h2>
-        </motion.div>
+          <p className="para-14 mt-6 max-w-lg font-medium text-[#7a4b31]">
+            Share a few details and our team will get back with pricing,
+            availability, and order support for your requirement.
+          </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col gap-8"
-          >
-            <p className="text-gray-600 text-lg leading-relaxed">
-              Have questions about our products or want to place a bulk order?
-              Reach out to us and we&apos;ll respond within 24 hours.
-            </p>
-
-            <div className="flex flex-col gap-6">
-              <InfoItem
-                icon={<Mail />}
-                title="Email Us"
-                value="info@amiventia.com"
-              />
-              <InfoItem
-                icon={<Phone />}
-                title="Call Us"
-                value="+91 98765 43210"
-              />
-              <InfoItem
-                icon={<MapPin />}
-                title="Visit Us"
-                value="123 Health Street, Wellness District, Mumbai 400001"
-              />
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative rounded-3xl overflow-hidden"
-          >
-            <div className="absolute inset-0 glass-card shadow-xl" />
-            <form onSubmit={handleSubmit} className="relative p-8 flex flex-col gap-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input label="Full Name" name="name" placeholder="John Doe" />
-              <Input label="Email" name="email" placeholder="john@example.com" />
-            </div>
-
-            <Input
-              label="Phone Number"
-              name="phone"
-              placeholder="+91 98765 43210"
-            />
-
-            <Textarea
-              label="Message"
-              name="message"
-              placeholder="Tell us about your inquiry..."
-            />
-
-            <input type="hidden" name="request_type" value="Product Inquiry / Bulk Order" />
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="mt-4 bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white py-4 rounded-xl flex items-center justify-center gap-2 hover:from-[#E85A2A] hover:to-[#E07A10] active:scale-95 transition-all font-medium shadow-lg"
-            >
-              <Send size={18} />
-              {loading ? "Sending..." : "Send Message"}
-            </button>
-          </form>
-          </motion.div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+            {contactItems.map(({ icon: Icon, label, value }) => (
+              <div
+                key={label}
+                className="rounded-lg border border-[#eadcc6] bg-white p-5 shadow-[0_18px_45px_rgba(88,48,28,0.08)]"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f4eadb] text-[#6b351f]">
+                  <Icon size={21} strokeWidth={1.8} />
+                </span>
+                <h3 className="subheading-20 mt-4 font-black text-[#4a2415]">
+                  {label}
+                </h3>
+                <p className="para-14 mt-2 font-medium text-[#7a4b31]">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <form
+          onSubmit={submitInquiry}
+          className="rounded-lg border border-[#d8b98b] bg-[#f8ead4] p-5 shadow-[0_30px_90px_rgba(88,48,28,0.12)] md:p-8"
+        >
+          <div className="mb-5">
+            <p className="para-14 font-bold text-[#6f442d]">
+              Tell us what you need and we will respond soon.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            <input
+              name="name"
+              value={form.name}
+              onChange={updateField}
+              placeholder="Full Name"
+              className="h-14 rounded-md border border-[#eadcc6] bg-white px-4 text-sm font-semibold text-[#3a1a0f] outline-none transition placeholder:text-[#9b8b80] focus:border-[#f2a03b]"
+            />
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={updateField}
+              placeholder="Email"
+              className="h-14 rounded-md border border-[#eadcc6] bg-white px-4 text-sm font-semibold text-[#3a1a0f] outline-none transition placeholder:text-[#9b8b80] focus:border-[#f2a03b]"
+            />
+            <input
+              name="company"
+              value={form.company}
+              onChange={updateField}
+              placeholder="Company"
+              className="h-14 rounded-md border border-[#eadcc6] bg-white px-4 text-sm font-semibold text-[#3a1a0f] outline-none transition placeholder:text-[#9b8b80] focus:border-[#f2a03b]"
+            />
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={updateField}
+              placeholder="Message"
+              rows={5}
+              className="min-h-36 resize-none rounded-md border border-[#eadcc6] bg-white px-4 py-4 text-sm font-semibold text-[#3a1a0f] outline-none transition placeholder:text-[#9b8b80] focus:border-[#f2a03b]"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="mt-5 w-full rounded-md bg-[#f2a03b] px-6 py-4 text-sm font-black text-[#2a120a] transition hover:bg-[#ffb45a]"
+          >
+            Submit Inquiry
+          </button>
+        </form>
       </div>
     </section>
-  );
-}
-
-function InfoItem({ icon, title, value }) {
-  return (
-    <div className="flex items-start gap-4">
-      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#F7931E] text-white flex items-center justify-center flex-shrink-0 shadow-lg">
-        {icon}
-      </div>
-      <div>
-        <p className="font-semibold text-gray-900">{title}</p>
-        <p className="text-gray-600">{value}</p>
-      </div>
-    </div>
-  );
-}
-
-function Input({ label, ...props }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-gray-700">{label}</label>
-      <input
-        {...props}
-        required
-        className="px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent transition"
-      />
-    </div>
-  );
-}
-
-function Textarea({ label, ...props }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-gray-700">{label}</label>
-      <textarea
-        {...props}
-        required
-        rows={5}
-        className="px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent transition resize-none"
-      />
-    </div>
   );
 }

@@ -1,102 +1,53 @@
-"use client";
+import Image from "next/image";
 
-import { motion } from "framer-motion";
-import Button from "../ui/Button";
-import { Sparkles } from "lucide-react";
-
-function Hero() {
-  function scrollToSection(id) {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }
-
+export default function Hero() {
   return (
-    <div
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FF6B35] via-[#F7931E] to-[#004E89] text-white px-4 sm:px-6 overflow-hidden"
+    <section
+      id="home"
+      className="relative min-h-[620px] overflow-hidden bg-[#2a150c] text-white md:min-h-screen"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.15),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(255,255,255,0.2),transparent_60%)]" />
+      <Image
+        src="/herobg.png"
+        alt="Chocolate ragi malt bowl with almonds on a wooden table"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+        style={{ objectPosition: "center center" }}
+      />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative w-full flex flex-col items-center text-center z-10"
-      >
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 glass-card-dark rounded-full text-sm sm:text-base mb-8"
-        >
-          <Sparkles className="w-4 h-4" />
-          100% Healthy and Natural
-        </motion.div>
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(31,12,6,0.88)_0%,rgba(43,18,9,0.74)_34%,rgba(42,18,9,0.2)_68%,rgba(20,8,4,0.16)_100%)]" />
+      <div className="absolute inset-0 bg-black/10" />
 
-        <div className="max-w-5xl flex flex-col items-center gap-6">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="font-bold leading-none text-[18vw] sm:text-[12vw] md:text-[8rem] tracking-tight"
-          >
-            Amiventia
-          </motion.h1>
+      <div className="relative z-10 mx-auto flex min-h-[620px] w-full max-w-7xl items-center px-6 pb-14 pt-28 md:min-h-screen md:px-10 md:pt-32 lg:px-14">
+        <div className="max-w-[620px]">
+          <h1 className="text-[44px] font-extrabold leading-[0.98] tracking-[-0.025em] text-white drop-shadow-xl sm:text-6xl md:text-[76px] lg:text-[72px]">
+            Nourish Your Soul with{" "}
+            <span className="text-[#f29a38]">Ancient Grains</span>
+          </h1>
 
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-lg sm:text-xl md:text-3xl font-medium text-white/95"
-          >
-            Wholesome Instant Foods for a Healthier You
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="max-w-2xl text-sm sm:text-base md:text-lg text-white/85 leading-relaxed"
-          >
+          <p className="mt-5 max-w-[540px] text-base font-semibold leading-relaxed text-white/82 md:text-lg">
             Discover our range of nutritious, delicious instant food products
             crafted with traditional grains and natural ingredients. Quick to
             prepare, perfect for your busy lifestyle.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="mt-4 w-full flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Button
-              size="lg"
-              onClick={() => scrollToSection("products")}
-              variant="outline"
-              className="min-w-[180px]"
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a
+              href="#products"
+              className="rounded-lg bg-[#f2a03b] px-7 py-3.5 text-sm font-extrabold text-[#251208] shadow-[0_14px_30px_rgba(0,0,0,0.25)] transition hover:bg-[#ffb457]"
             >
               View Products
-            </Button>
-
-            <Button
-              size="lg"
-              onClick={() => scrollToSection("about")}
-              variant="outline"
-              className="min-w-[180px]"
+            </a>
+            <a
+              href="#about"
+              className="rounded-lg border border-white/45 bg-white/5 px-7 py-3.5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(0,0,0,0.18)] backdrop-blur-sm transition hover:bg-white/12"
             >
               Learn More
-            </Button>
-          </motion.div>
+            </a>
+          </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </section>
   );
 }
-
-export default Hero;
