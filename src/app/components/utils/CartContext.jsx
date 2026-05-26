@@ -1,8 +1,16 @@
 "use client";
 
-import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  linkWithPopup,
+  onAuthStateChanged,
+  signInAnonymously,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import {
   collection,
+  deleteDoc,
   doc,
   increment,
   onSnapshot,
@@ -81,10 +89,62 @@ export function CartProvider({ children }) {
     );
   }, [user]);
 
+  const updateCartItem = useCallback(
+    async (itemId, quantity) => {
+      if (!user) return;
+      const cartItemRef = doc(db, "carts", user.uid, "items", itemId);
+
+      if (quantity <= 0) {
+        await deleteDoc(cartItemRef);
+        return;
+      }
+
+      await setDoc(
+        cartItemRef,
+        {
+          quantity,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    },
+    [user]
+  );
+
+  const removeCartItem = useCallback(
+    async (itemId) => {
+      if (!user) return;
+      await deleteDoc(doc(db, "carts", user.uid, "items", itemId));
+    },
+    [user]
+  );
+
   const cartCount = useMemo(
     () => items.reduce((total, item) => total + (item.quantity || 0), 0),
     [items]
   );
+
+  const loginWithGoogle = useCallback(async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      if (auth.currentUser?.isAnonymous) {
+        await linkWithPopup(auth.currentUser, provider);
+      } else {
+        await signInWithPopup(auth, provider);
+      }
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  }, []);
+
+  const logout = useCallback(async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -93,8 +153,12 @@ export function CartProvider({ children }) {
       cartCount,
       isCartReady,
       addToCart,
+      updateCartItem,
+      removeCartItem,
+      loginWithGoogle,
+      logout,
     }),
-    [user, items, cartCount, isCartReady, addToCart]
+    [user, items, cartCount, isCartReady, addToCart, updateCartItem, removeCartItem, loginWithGoogle, logout]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import WhatsAppButton from "./components/utils/Whatsapp";
+import Navbar from "./components/navbar/NavbarClient";
+import { CartProvider } from "./components/utils/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +31,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
-        {children}
+        <CartProvider>
+          <Navbar />
+          {children}
+        </CartProvider>
         <WhatsAppButton />
       </body>
     </html>
